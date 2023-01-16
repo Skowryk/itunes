@@ -1,11 +1,24 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.css";
-import App from "app/app";
+import './index.css'
+import { createRoot } from 'react-dom/client'
+import React from 'react'
+import { HomePage } from 'Pages/HomePage'
+import { queryClient } from 'API/queryClient'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { Toaster } from 'react-hot-toast'
+// import { worker } from 'mocks/browser'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+const container = document.getElementById('root')
+
+if (container) {
+  const root = createRoot(container)
+  // worker.start()
+
+  root.render(
+    <React.StrictMode>
+      <QueryClientProvider client={queryClient}>
+        <HomePage />
+        <Toaster />
+      </QueryClientProvider>
+    </React.StrictMode>
+  )
+}

@@ -1,19 +1,12 @@
 import { defineConfig } from "vite";
-import { resolve } from "path";
 import react from "@vitejs/plugin-react";
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig((configEnv) => {
   const isDevelopment = configEnv.mode === "development";
 
   return {
-    plugins: [react()],
-    resolve: {
-      alias: {
-        app: resolve(__dirname, "src", "app"),
-        components: resolve(__dirname, "src", "components"),
-        hooks: resolve(__dirname, "src", "hooks"),
-      },
-    },
+    plugins: [react(), tsconfigPaths()],
     css: {
       modules: {
         generateScopedName: isDevelopment
@@ -21,5 +14,10 @@ export default defineConfig((configEnv) => {
           : "[hash:base64:5]",
       },
     },
+    test: {
+      globals: true,
+      environment: 'jsdom',
+      setupFiles: './src/tests/setup.ts'
+    }
   };
 });
